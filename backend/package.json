@@ -2,9 +2,13 @@
   "name": "email3-backend",
   "version": "1.0.0",
   "scripts": {
-    "postinstall": "playwright install"
+    "postinstall": "playwright install --with-deps chromium",
+    "start": "python -m uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT"
   },
   "dependencies": {
-    "playwright": "latest"
+    "playwright": "^1.45.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
