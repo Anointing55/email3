@@ -5,15 +5,15 @@ services:
     env: python
     buildCommand: |
       pip install -r backend/requirements.txt
-      playwright install
+      cd backend && npm install  # Installs Playwright
     startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PORT
         value: 8000
       - key: ENVIRONMENT
         value: production
-    plan: free  # Or "starter" for paid tier
-  
+    plan: free
+
   # Frontend (Next.js)
   - type: web
     name: email3-frontend
