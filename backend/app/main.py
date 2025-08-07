@@ -1,6 +1,6 @@
 # backend/app/main.py
 import os
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .routes import router
 from .cleanup import setup_scheduler
@@ -20,19 +20,26 @@ limiter = Limiter(key_func=get_remote_address)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# CORS configuration
-origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+# Safe CORS fallback
+cors_origins = os.getenv("ALLOWED_ORIGINS", "*")
+origins = [origin.strip() for origin in cors_origins.split(",") if origin.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=origins if origins else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Add route prefixes
 app.include_router(router, prefix="/api")
 
-# Setup scheduled cleanup
+# Health route (optional but useful)
+@app.get("/")
+def read_root():
+    return {"message": "Email & Social Link Extractor API is running"}
+
+# Startup event for cleanup scheduler
 @app.on_event("startup")
 async def startup_event():
     setup_scheduler()
