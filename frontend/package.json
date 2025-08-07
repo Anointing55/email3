@@ -11,7 +11,6 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
-    // Add other frontend dependencies here
   },
   "engines": {
     "node": ">=18.0.0"
