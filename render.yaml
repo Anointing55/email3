@@ -1,33 +1,32 @@
 services:
-  # Backend (FastAPI)
+  # Backend Service (FastAPI)
   - type: web
-  name: email3-backend
-  env: python
-  pythonVersion: "3.10"  # Force compatible Python version
-  buildCommand: |
-    pip install --no-cache-dir -r backend/requirements.txt --constraint backend/constraints.txt
-    playwright install chromium
-  startCommand: |
-    python -m uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
-  envVars:
-    - key: PORT
-      value: 8000
-    - key: ENVIRONMENT
-      value: production
-    - key: PLAYWRIGHT_BROWSERS_PATH
-      value: 0  # Use system browser
-  plan: free
+    name: email3-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: |
+      pip install -r backend/requirements.txt
+      playwright install chromium
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: ENVIRONMENT
+        value: production
+    autoDeploy: true
+    rootDir: backend
 
-services:
-  # Frontend (Next.js)
+  # Frontend Service (Next.js)
   - type: web
     name: email3-frontend
     env: node
+    plan: free
     buildCommand: |
-      cd frontend && npm ci && npm run build
-    startCommand: |
-      cd frontend && npm start
+      npm install
+      npm run build
+    startCommand: npm run start
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://email3-backend.onrender.com
-    plan: free
+    rootDir: frontend

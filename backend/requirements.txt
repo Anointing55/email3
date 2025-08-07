@@ -1,17 +1,24 @@
-# Use pre-built pandas wheel to avoid compilation
-pandas==2.1.4; python_version < '3.12' and platform_system != 'Windows'
-numpy==1.26.4
-fastapi
-uvicorn
-playwright
-python-multipart
+# Core Web Framework
+fastapi==0.111.0
+uvicorn==0.29.0
+
+# Web Scraping & Crawling
+httpx==0.27.0
 beautifulsoup4==4.12.3
-pandas==2.2.0
+lxml==5.2.1
+playwright==1.42.0
+
+# Data Handling
+pandas==2.2.1
+numpy==1.26.4
 openpyxl==3.1.2
-fpdf2==2.7.6
+python-multipart==0.0.9
+
+# File & Report Generation
+Pillow==10.3.0
+reportlab==4.1.0
+
+# Utilities
 loguru==0.7.2
 apscheduler==3.10.4
-slowapi==0.1.8
-python-multipart==0.0.9
-Pillow==10.2.0
-httpx==0.27.0
+tldextract==5.1.2
