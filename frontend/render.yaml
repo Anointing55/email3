@@ -1,0 +1,9 @@
+static_sites:
+  - name: contact-extractor-frontend
+    build_command: npm install && npm run build
+    output_path: out
+    env_vars:
+      - key: NEXT_PUBLIC_API_URL
+        value: ${{services.BACKEND_SERVICE_URL}}
+      - key: API_KEY
+        value: ${{env.API_KEY}}

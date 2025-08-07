@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: contact-extractor-backend
+    env: python
+    build_command: pip install -r requirements.txt && playwright install
+    start_command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    env_vars:
+      - key: PORT
+        value: 8000
+      - key: ENVIRONMENT
+        value: production
+      - key: ALLOWED_ORIGINS
+        value: ${{services.FRONTEND_SERVICE_URL}}
