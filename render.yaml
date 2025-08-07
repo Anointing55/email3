@@ -14,14 +14,15 @@ services:
         value: production
     plan: free
 
+services:
   # Frontend (Next.js)
   - type: web
     name: email3-frontend
     env: node
     buildCommand: |
-      cd frontend && npm install && npm run build
+      cd frontend && npm ci && npm run build
     startCommand: |
-      cd frontend && npm run start
+      cd frontend && npm start
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://email3-backend.onrender.com
