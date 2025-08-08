@@ -1,29 +1,21 @@
 services:
-  # Backend Service
+  # Backend Service (Docker + Playwright)
   - type: web
     name: email3-backend
-    env: python
+    env: docker
+    dockerfilePath: backend/Dockerfile
     region: oregon
     plan: free
-    buildCommand: |
-      cd backend
-      pip install --upgrade pip
-      pip install -r requirements.txt
-      PLAYWRIGHT_BROWSERS_PATH=0 python -m playwright install --with-deps chromium
-    startCommand: |
-      cd backend
-      uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PORT
         value: 10000
       - key: PLAYWRIGHT_BROWSERS_PATH
-        value: /opt/render/.cache/ms-playwright
+        value: /ms-playwright
     autoDeploy: true
 
-  # Frontend Service
-  - type: web
+  # Frontend Service (Static Site)
+  - type: static_site
     name: email3-frontend
-    env: static
     region: oregon
     plan: free
     branch: main
