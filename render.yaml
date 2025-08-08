@@ -14,8 +14,9 @@ services:
     autoDeploy: true
 
   # Frontend Service (Static Site)
-  - type: static_site
+  - type: web
     name: email3-frontend
+    env: static
     region: oregon
     plan: free
     branch: main
