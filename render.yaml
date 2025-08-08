@@ -9,7 +9,7 @@ services:
       cd backend
       pip install --upgrade pip
       pip install -r requirements.txt
-      python -m playwright install --with-deps chromium
+      PLAYWRIGHT_BROWSERS_PATH=0 python -m playwright install --with-deps chromium
     startCommand: |
       cd backend
       uvicorn app.main:app --host 0.0.0.0 --port $PORT
@@ -17,21 +17,22 @@ services:
       - key: PORT
         value: 10000
       - key: PLAYWRIGHT_BROWSERS_PATH
-        value: /opt/render/.cache/playwright
+        value: /opt/render/.cache/ms-playwright
     autoDeploy: true
 
   # Frontend Service
   - type: web
     name: email3-frontend
-    env: node
+    env: static
     region: oregon
     plan: free
+    branch: main
     buildCommand: |
       cd frontend
       npm install
       npm run build
       npm run export
-    startCommand: npx serve out -l $PORT
+    outputPath: frontend/out
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://email3-backend.onrender.com
