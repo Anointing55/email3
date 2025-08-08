@@ -1,9 +1,15 @@
-static_sites:
-  - name: contact-extractor-frontend
-    build_command: npm install && npm run build
-    output_path: out
-    env_vars:
+# Frontend Service
+  - type: web
+    name: email3-frontend
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: |
+      npm install
+      npm run build
+      npm run export
+    outputPath: out
+    envVars:
       - key: NEXT_PUBLIC_API_URL
-        value: ${{services.BACKEND_SERVICE_URL}}
-      - key: API_KEY
-        value: ${{env.API_KEY}}
+        value: https://email3-backend.onrender.com
+    autoDeploy: true
