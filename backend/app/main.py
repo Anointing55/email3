@@ -8,6 +8,8 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 
+os.environ["PLAYWRIGHT_BROWSERS_PATH"] = os.getenv("PLAYWRIGHT_BROWSERS_PATH", "/opt/render/.cache/playwright")
+
 app = FastAPI(
     title="Contact Info & Social Media Extractor",
     description="API for extracting contact information from websites",
