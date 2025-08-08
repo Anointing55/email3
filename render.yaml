@@ -13,19 +13,17 @@ services:
         value: /ms-playwright
     autoDeploy: true
 
-  # Frontend Service (Static Site)
-  - type: web
+  # Frontend Service
+  - type: static_site
     name: email3-frontend
-    env: static
     region: oregon
     plan: free
     branch: main
     buildCommand: |
-      cd frontend
       npm install
       npm run build
       npm run export
-    outputPath: frontend/out
+    outputPath: out
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://email3-backend.onrender.com
